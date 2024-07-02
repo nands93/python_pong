@@ -8,7 +8,8 @@ def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2):
 	screen.fill(color1)
 	pygame.draw.rect(screen, color2, p1.rect)
 	pygame.draw.rect(screen, color2, p2.rect)
-	pygame.draw.aaline(screen, color2, (width // 2, 0), (width // 2, height))
+	pygame.draw.rect(screen, color2, pygame.Rect(10, 10, width - 20, height - 20), 10)
+	pygame.draw.aaline(screen, color2, (width // 2, 10), (width // 2, height - 15))
 	pygame.draw.ellipse(screen, color2, ball)
 
 
@@ -36,8 +37,8 @@ def main():
 
 	# players
 	speed = 10
-	x_p1 = 10
-	x_p2 = screen_width - 20
+	x_p1 = 30
+	x_p2 = screen_width - 40
 	y_player = (screen_height - 100) // 2
 	w_player = 10
 	h_player = 100
