@@ -5,12 +5,12 @@ import sys
 
 
 def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2):
-	screen.fill(color1)
-	pygame.draw.rect(screen, color2, p1.rect)
-	pygame.draw.rect(screen, color2, p2.rect)
-	pygame.draw.rect(screen, color2, pygame.Rect(10, 10, width - 20, height - 20), 10)
-	pygame.draw.aaline(screen, color2, (width // 2, 10), (width // 2, height - 15))
-	pygame.draw.ellipse(screen, color2, ball)
+	screen.fill(color1)  # screen color
+	pygame.draw.rect(screen, color2, p1.rect)  # player1
+	pygame.draw.rect(screen, color2, p2.rect)  # player2
+	pygame.draw.rect(screen, color2, pygame.Rect(10, 10, width - 20, height - 20), 10)  # game area
+	pygame.draw.aaline(screen, color2, (width // 2, 10), (width // 2, height - 15))  # midfield
+	pygame.draw.ellipse(screen, color2, ball)  # ball
 
 
 def key_movements(p1, p2):
