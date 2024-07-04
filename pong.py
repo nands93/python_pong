@@ -8,7 +8,6 @@ def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2):
 	screen.fill(color1)  # screen color
 	pygame.draw.rect(screen, color2, p1.rect)  # player1
 	pygame.draw.rect(screen, color2, p2.rect)  # player2
-	pygame.draw.rect(screen, color2, pygame.Rect(10, 10, width - 20, height - 20), 10)  # game area
 	pygame.draw.aaline(screen, color2, (width // 2, 10), (width // 2, height - 15))  # midfield
 	pygame.draw.ellipse(screen, color2, ball)  # ball
 
@@ -49,9 +48,10 @@ def main():
 	b_size = 10
 	b_x_speed = 7.5
 	b_y_speed = 7.5
-	ball = Ball(b_size, b_x_speed, b_y_speed, screen_width, screen_height)
+	ball = Ball(b_size, screen_width // 2 - b_size // 2, screen_height // 2 - b_size // 2, b_x_speed, b_y_speed, screen_width, screen_height)
 
 	frames_per_second = pygame.time.Clock()
+	font = pygame.font.Font(None, 74)
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -61,6 +61,8 @@ def main():
 		key_movements(player1, player2)
 		ball.movement()
 		ball.collision(player1, player2)
+		score_text = font.render(f"{player1.score}   {player2.score}", True, white)
+		screen.blit(score_text, (screen_width // 2 - score_text.get_width() // 2, 10))
 		pygame.display.update()
 		frames_per_second.tick(60)
 
