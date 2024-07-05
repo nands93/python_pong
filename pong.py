@@ -5,19 +5,27 @@ import sys
 
 
 def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2):
+	font = pygame.font.Font(None, 74)  # score font
 	screen.fill(color1)  # screen color
 	pygame.draw.rect(screen, color2, p1.rect)  # player1
 	pygame.draw.rect(screen, color2, p2.rect)  # player2
-	pygame.draw.aaline(screen, color2, (width // 2, 10), (width // 2, height - 15))  # midfield
+	pygame.draw.aaline(screen, color2, (width // 2, 0), (width // 2, height))  # midfield
 	pygame.draw.ellipse(screen, color2, ball)  # ball
+	# score
+	score_player1 = font.render(f"{p1.score}", True, color2)
+	score_player2 = font.render(f"{p2.score} ", True, color2)
+	screen.blit(score_player1, (200, 30))
+	screen.blit(score_player2, (600, 30))
 
 
 def key_movements(p1, p2):
 	keys = pygame.key.get_pressed()
+	# player1
 	if keys[pygame.K_w]:
 		p1.move_up()
 	if keys[pygame.K_s]:
 		p1.move_down()
+	# player2
 	if keys[pygame.K_UP]:
 		p2.move_up()
 	if keys[pygame.K_DOWN]:
@@ -40,18 +48,19 @@ def main():
 	x_p2 = screen_width - 40
 	y_player = (screen_height - 100) // 2
 	w_player = 10
-	h_player = 100
+	h_player = 70
 	player1 = Player(x_p1, y_player, speed, w_player, h_player)
 	player2 = Player(x_p2, y_player, speed, w_player, h_player)
 
 	# ball
 	b_size = 10
-	b_x_speed = 7.5
-	b_y_speed = 7.5
-	ball = Ball(b_size, screen_width // 2 - b_size // 2, screen_height // 2 - b_size // 2, b_x_speed, b_y_speed, screen_width, screen_height)
+	b_x_speed = 5
+	b_y_speed = 5
+	x = screen_width // 2 - b_size // 2
+	y = screen_height // 2 - b_size // 2
+	ball = Ball(b_size, x, y, b_x_speed, b_y_speed, screen_width, screen_height)
 
 	frames_per_second = pygame.time.Clock()
-	font = pygame.font.Font(None, 74)
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -61,8 +70,6 @@ def main():
 		key_movements(player1, player2)
 		ball.movement()
 		ball.collision(player1, player2)
-		score_text = font.render(f"{player1.score}   {player2.score}", True, white)
-		screen.blit(score_text, (screen_width // 2 - score_text.get_width() // 2, 10))
 		pygame.display.update()
 		frames_per_second.tick(60)
 
