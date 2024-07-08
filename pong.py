@@ -44,8 +44,8 @@ def main():
 
 	# players
 	speed = 10
-	x_p1 = 30
-	x_p2 = screen_width - 40
+	x_p1 = 50
+	x_p2 = screen_width - 60
 	y_player = (screen_height - 100) // 2
 	w_player = 10
 	h_player = 70
@@ -53,12 +53,12 @@ def main():
 	player2 = Player(x_p2, y_player, speed, w_player, h_player)
 
 	# ball
-	b_size = 10
-	b_x_speed = 5
-	b_y_speed = 5
-	x = screen_width // 2 - b_size // 2
-	y = screen_height // 2 - b_size // 2
-	ball = Ball(b_size, x, y, b_x_speed, b_y_speed, screen_width, screen_height)
+	b_radius = 15
+	b_x_speed = 5.0
+	b_y_speed = 5.0
+	ball_x = screen_width // 2 - b_radius
+	ball_y = screen_height // 2 - b_radius
+	ball = Ball(b_radius, ball_x, ball_y, b_x_speed, b_y_speed, screen_width, screen_height)
 
 	frames_per_second = pygame.time.Clock()
 	while True:
