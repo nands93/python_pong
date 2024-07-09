@@ -66,6 +66,8 @@ def menu(screen, width, height, color1, color2):
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				click_pos = pygame.mouse.get_pos()
 				if button1_rect.collidepoint(click_pos):
+					print("Teste")
+				if button2_rect.collidepoint(click_pos):
 					main_game(screen, width, height, color1, color2)
 
 		screen.blit(title, menu_rect)
@@ -104,7 +106,7 @@ def main_game(screen, screen_width, screen_height, black, white):
 		key_movements(player1, player2)
 		ball.movement()
 		ball.collision(player1, player2)
-		pygame.display.flip()
+		pygame.display.update()
 		frames_per_second.tick(60)
 
 
