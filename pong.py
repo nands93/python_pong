@@ -1,6 +1,7 @@
 import pygame
 from player import Player
 from ball import Ball
+from button import Button
 import sys
 
 
@@ -38,41 +39,33 @@ def menu(screen, width, height, color1, color2):
 	title = menu_title.render("PONG", True, "#b68f40")
 	background = pygame.image.load('assets/background.png')
 	menu_button = pygame.font.Font('assets/font.ttf', 30)
-	button = pygame.image.load("assets/button.png").convert_alpha()
 
 	while True:
 		screen.blit(background, (0, 0))
 		menu_rect = title.get_rect(center=(width // 2, height // 4))
 		mouse_pos = pygame.mouse.get_pos()
-		# 1 PLAYER MODE BUTTON
-		button1 = menu_button.render("1 PLAYER MODE", True, "#d7fcd4")
-		button1_rect = button1.get_rect(center=(width // 2, height // 1.7))
-		if button1_rect.collidepoint(mouse_pos):
-			button1 = menu_button.render("1 PLAYER MODE", True, color2)
-		else:
-			button1 = menu_button.render("1 PLAYER MODE", True, "#d7fcd4")
-		# 2 PLAYERS MODE BUTTON
-		button2 = menu_button.render("2 PLAYERS MODE", True, "#d7fcd4")
-		button2_rect = button2.get_rect(center=(width // 2, height // 1.3))
-		if button2_rect.collidepoint(mouse_pos):
-			button2 = menu_button.render("2 PLAYERS MODE", True, color2)
-		else:
-			button2 = menu_button.render("2 PLAYERS MODE", True, "#d7fcd4")
-
+		button1 = Button(menu_button, "1 PLAYER MODE", "#d7fcd4", width // 2, height // 1.7)
+		button2 = Button(menu_button, "2 PLAYERS MODE", "#d7fcd4", width // 2, height // 1.4)
+		button3 = Button(menu_button, "EXIT", "#d7fcd4", width // 2, height // 1.2)
+		button1.mouse_collider(mouse_pos, menu_button, "1 PLAYER MODE", "#d7fcd4", color2)
+		button2.mouse_collider(mouse_pos, menu_button, "2 PLAYERS MODE", "#d7fcd4", color2)
+		button3.mouse_collider(mouse_pos, menu_button, "EXIT", "#d7fcd4", color2)
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
 				sys.exit()
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				click_pos = pygame.mouse.get_pos()
-				if button1_rect.collidepoint(click_pos):
+				if button1.rect.collidepoint(click_pos):
 					print("Teste")
-				if button2_rect.collidepoint(click_pos):
+				if button2.rect.collidepoint(click_pos):
 					main_game(screen, width, height, color1, color2)
-
+				if button3.rect.collidepoint(click_pos):
+					exit()
 		screen.blit(title, menu_rect)
-		screen.blit(button1, button1_rect)
-		screen.blit(button2, button2_rect)
+		button1.screen_blit(screen)
+		button2.screen_blit(screen)
+		button3.screen_blit(screen)
 		pygame.display.update()
 
 

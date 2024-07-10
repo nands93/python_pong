@@ -17,7 +17,6 @@ class Ball:
 		self.y = y
 
 	def movement(self):
-
 		self.rect.x += self.speed_x
 		self.rect.y += self.speed_y
 
@@ -34,7 +33,11 @@ class Ball:
 		if self.rect.right >= self.width - self.radius:
 			player1.score += 1
 			self.reset_position()
-		if self.rect.colliderect(player1.rect) or self.rect.colliderect(player2.rect):
+		if self.rect.colliderect(player1.rect):
+			self.rect.left = player1.rect.right
+			self.speed_x *= -1
+		if self.rect.colliderect(player2.rect):
+			self.rect.right = player2.rect.left
 			self.speed_x *= -1
 
 	def reset_position(self):
