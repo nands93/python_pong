@@ -38,18 +38,15 @@ def menu(screen, width, height, color1, color2):
 	menu_title = pygame.font.Font('assets/font.ttf', 100)
 	title = menu_title.render("PONG", True, "#b68f40")
 	background = pygame.image.load('assets/background.png')
-	menu_button = pygame.font.Font('assets/font.ttf', 30)
+	font_b = pygame.font.Font('assets/font.ttf', 30)
 
 	while True:
 		screen.blit(background, (0, 0))
 		menu_rect = title.get_rect(center=(width // 2, height // 4))
 		mouse_pos = pygame.mouse.get_pos()
-		button1 = Button(menu_button, "1 PLAYER MODE", "#d7fcd4", width // 2, height // 1.7)
-		button2 = Button(menu_button, "2 PLAYERS MODE", "#d7fcd4", width // 2, height // 1.4)
-		button3 = Button(menu_button, "EXIT", "#d7fcd4", width // 2, height // 1.2)
-		button1.mouse_collider(mouse_pos, menu_button, "1 PLAYER MODE", "#d7fcd4", color2)
-		button2.mouse_collider(mouse_pos, menu_button, "2 PLAYERS MODE", "#d7fcd4", color2)
-		button3.mouse_collider(mouse_pos, menu_button, "EXIT", "#d7fcd4", color2)
+		button1 = Button(font_b, "1 PLAYER MODE", color2, "#d7fcd4", width // 2, height // 1.7, mouse_pos)
+		button2 = Button(font_b, "2 PLAYERS MODE", color2, "#d7fcd4", width // 2, height // 1.4, mouse_pos)
+		button3 = Button(font_b, "EXIT", color2, "#d7fcd4", width // 2, height // 1.2, mouse_pos)
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
