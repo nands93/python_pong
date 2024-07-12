@@ -1,5 +1,5 @@
 import pygame
-from player import Player
+from player import Player, AIPlayer
 from ball import Ball
 from button import Button
 import sys
@@ -18,7 +18,7 @@ def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2, font):
 	screen.blit(score_player2, (600, 30))
 
 
-def key_movements(p1, p2):
+def key_movements(p1, p2, ball, screen_width, screen_height, mode):
 	keys = pygame.key.get_pressed()
 	# player1
 	if keys[pygame.K_w]:
@@ -26,10 +26,13 @@ def key_movements(p1, p2):
 	if keys[pygame.K_s]:
 		p1.move_down()
 	# player2
-	if keys[pygame.K_UP]:
-		p2.move_up()
-	if keys[pygame.K_DOWN]:
-		p2.move_down()
+	if mode == 1:
+		if keys[pygame.K_UP]:
+			p2.move_up()
+		if keys[pygame.K_DOWN]:
+			p2.move_down()
+	else:
+		p2.movement(ball, screen_width, screen_height)
 
 
 def menu(screen, width, height, color1, color2):
@@ -54,9 +57,9 @@ def menu(screen, width, height, color1, color2):
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				click_pos = pygame.mouse.get_pos()
 				if button1.rect.collidepoint(click_pos):
-					print("Teste")
+					main_game(screen, width, height, color1, color2, 0)
 				if button2.rect.collidepoint(click_pos):
-					main_game(screen, width, height, color1, color2)
+					main_game(screen, width, height, color1, color2, 1)
 				if button3.rect.collidepoint(click_pos):
 					exit()
 		screen.blit(title, menu_rect)
@@ -66,7 +69,7 @@ def menu(screen, width, height, color1, color2):
 		pygame.display.update()
 
 
-def main_game(screen, screen_width, screen_height, black, white):
+def main_game(screen, screen_width, screen_height, black, white, mode):
 	# players
 	speed = 10
 	x_p1 = 50
@@ -75,7 +78,10 @@ def main_game(screen, screen_width, screen_height, black, white):
 	w_player = 10
 	h_player = 70
 	player1 = Player(x_p1, y_player, speed, w_player, h_player)
-	player2 = Player(x_p2, y_player, speed, w_player, h_player)
+	if mode == 0:
+		player2 = AIPlayer(x_p2, y_player, speed, w_player, h_player)
+	else:
+		player2 = Player(x_p2, y_player, speed, w_player, h_player)
 
 	# ball
 	b_radius = 15
@@ -93,7 +99,7 @@ def main_game(screen, screen_width, screen_height, black, white):
 				pygame.quit()
 				sys.exit()
 		draw_on_screen(screen, black, white, screen_width, screen_height, ball, player1, player2, font)
-		key_movements(player1, player2)
+		key_movements(player1, player2, ball, screen_width, screen_height, mode)
 		ball.movement()
 		ball.collision(player1, player2)
 		pygame.display.update()
