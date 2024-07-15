@@ -1,5 +1,5 @@
 import pygame
-from player import Player, AIPlayer
+from player import Player, AutoPlayer
 from ball import Ball
 from button import Button
 import sys
@@ -35,21 +35,23 @@ def key_movements(p1, p2, ball, screen_width, screen_height, mode):
 		p2.movement(ball, screen_width, screen_height)
 
 
-def menu(screen, width, height, color1, color2):
+def menu(screen, width, height, color1, color2, color3):
 	pygame.display.set_caption("Menu")
 
 	menu_title = pygame.font.Font('assets/font.ttf', 100)
 	title = menu_title.render("PONG", True, "#b68f40")
 	background = pygame.image.load('assets/background.png')
 	font_b = pygame.font.Font('assets/font.ttf', 30)
+	sound = pygame.mixer.Sound("assets/button.ogg")
+
+	button1 = Button(font_b, "1 PLAYER MODE", color2, color3, width // 2, height // 1.7, sound)
+	button2 = Button(font_b, "2 PLAYERS MODE", color2, color3, width // 2, height // 1.4, sound)
+	button3 = Button(font_b, "EXIT", color2, color3, width // 2, height // 1.2, sound)
 
 	while True:
 		screen.blit(background, (0, 0))
 		menu_rect = title.get_rect(center=(width // 2, height // 4))
-		mouse_pos = pygame.mouse.get_pos()
-		button1 = Button(font_b, "1 PLAYER MODE", color2, "#d7fcd4", width // 2, height // 1.7, mouse_pos)
-		button2 = Button(font_b, "2 PLAYERS MODE", color2, "#d7fcd4", width // 2, height // 1.4, mouse_pos)
-		button3 = Button(font_b, "EXIT", color2, "#d7fcd4", width // 2, height // 1.2, mouse_pos)
+		mouse = pygame.mouse.get_pos()
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
@@ -63,9 +65,9 @@ def menu(screen, width, height, color1, color2):
 				if button3.rect.collidepoint(click_pos):
 					exit()
 		screen.blit(title, menu_rect)
-		button1.screen_blit(screen)
-		button2.screen_blit(screen)
-		button3.screen_blit(screen)
+		button1.button_loop(screen, mouse, font_b, "1 PLAYER MODE", color2, color3, sound)
+		button2.button_loop(screen, mouse, font_b, "2 PLAYERS MODE", color2, color3, sound)
+		button3.button_loop(screen, mouse, font_b, "EXIT", color2, color3, sound)
 		pygame.display.update()
 
 
@@ -79,7 +81,7 @@ def main_game(screen, screen_width, screen_height, black, white, mode):
 	h_player = 70
 	player1 = Player(x_p1, y_player, speed, w_player, h_player)
 	if mode == 0:
-		player2 = AIPlayer(x_p2, y_player, speed, w_player, h_player)
+		player2 = AutoPlayer(x_p2, y_player, speed, w_player, h_player)
 	else:
 		player2 = Player(x_p2, y_player, speed, w_player, h_player)
 
@@ -93,6 +95,9 @@ def main_game(screen, screen_width, screen_height, black, white, mode):
 
 	frames_per_second = pygame.time.Clock()
 	font = pygame.font.Font('assets/font.ttf', 72)
+	player_collision = pygame.mixer.Sound("assets/player_collision.mp3")
+	wall_collision = pygame.mixer.Sound("assets/wall_collision.mp3")
+	score_sound = pygame.mixer.Sound("assets/score.mp3")
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -101,20 +106,24 @@ def main_game(screen, screen_width, screen_height, black, white, mode):
 		draw_on_screen(screen, black, white, screen_width, screen_height, ball, player1, player2, font)
 		key_movements(player1, player2, ball, screen_width, screen_height, mode)
 		ball.movement()
-		ball.collision(player1, player2)
+		ball.collision(player1, player2, wall_collision, player_collision, score_sound)
 		pygame.display.update()
 		frames_per_second.tick(60)
 
 
 def main():
 	pygame.init()
+	pygame.font.init()
+	pygame.mixer.init()
+
 	screen_width = 800
 	screen_height = 600
 	screen = pygame.display.set_mode((screen_width, screen_height))
 	pygame.display.set_caption('Pong')
 	white = (255, 255, 255)
 	black = (0, 0, 0)
-	menu(screen, screen_width, screen_height, black, white)
+	green = "#d7fcd4"
+	menu(screen, screen_width, screen_height, black, white, green)
 
 
 if __name__ == "__main__":

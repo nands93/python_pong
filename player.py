@@ -25,7 +25,7 @@ class Player:
 		self.rect.y = y_position
 
 
-class AIPlayer(Player):
+class AutoPlayer(Player):
 	def __init__(self, x_pos, y_pos, speed, width, height):
 		super().__init__(x_pos, y_pos, speed, width, height)
 		self.target = y_pos
@@ -52,7 +52,7 @@ class AIPlayer(Player):
 			self.delay -= 1
 		else:
 			self.target = self.predict_ball(ball, screen_width, screen_height)
-			self.delay = 130
+			self.delay = 100
 
 		if self.rect.centery < self.target - player_center and self.rect.bottom < screen_height:
 			self.rect.y += self.speed
