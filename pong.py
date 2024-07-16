@@ -40,16 +40,17 @@ def menu(screen, width, height, color1, color2, color3):
 
 	menu_title = pygame.font.Font('assets/font.ttf', 100)
 	title = menu_title.render("PONG", True, "#b68f40")
-	background = pygame.image.load('assets/background.png')
-	font_b = pygame.font.Font('assets/font.ttf', 30)
+	bg = pygame.image.load('assets/background.png')
+	font_b = pygame.font.Font('assets/font.ttf', 25)
 	sound = pygame.mixer.Sound("assets/button.ogg")
 
-	button1 = Button(font_b, "1 PLAYER MODE", color2, color3, width // 2, height // 1.7, sound)
-	button2 = Button(font_b, "2 PLAYERS MODE", color2, color3, width // 2, height // 1.4, sound)
-	button3 = Button(font_b, "EXIT", color2, color3, width // 2, height // 1.2, sound)
+	button1 = Button(font_b, "1 PLAYER MODE", color2, color3, width // 2, height // 2, sound)
+	button2 = Button(font_b, "2 PLAYERS MODE", color2, color3, width // 2, height // 1.7, sound)
+	button3 = Button(font_b, "CONFIGURATION", color2, color3, width // 2, height // 1.5, sound)
+	button4 = Button(font_b, "EXIT", color2, color3, width // 2, height // 1.35, sound)
 
 	while True:
-		screen.blit(background, (0, 0))
+		screen.blit(bg, (0, 0))
 		menu_rect = title.get_rect(center=(width // 2, height // 4))
 		mouse = pygame.mouse.get_pos()
 		for event in pygame.event.get():
@@ -63,11 +64,37 @@ def menu(screen, width, height, color1, color2, color3):
 				if button2.rect.collidepoint(click_pos):
 					main_game(screen, width, height, color1, color2, 1)
 				if button3.rect.collidepoint(click_pos):
+					configuration_menu(screen, bg, color1, color2, color3, width, height, sound)
+				if button4.rect.collidepoint(click_pos):
 					exit()
 		screen.blit(title, menu_rect)
 		button1.button_loop(screen, mouse, font_b, "1 PLAYER MODE", color2, color3, sound)
 		button2.button_loop(screen, mouse, font_b, "2 PLAYERS MODE", color2, color3, sound)
-		button3.button_loop(screen, mouse, font_b, "EXIT", color2, color3, sound)
+		button3.button_loop(screen, mouse, font_b, "CONFIGURATION", color2, color3, sound)
+		button4.button_loop(screen, mouse, font_b, "EXIT", color2, color3, sound)
+		pygame.display.update()
+
+
+def configuration_menu(screen, background, color1, color2, color3, width, height, sound):
+	pygame.display.set_caption("Configuration Menu")
+	config_title_font = pygame.font.Font('assets/font.ttf', 40)
+	config_button_font = pygame.font.Font('assets/font.ttf', 20)
+	screen_title = config_title_font.render("CONFIGURATION", True, "#b68f40")
+	button = Button(config_button_font, "< BACK", color2, color3, width // 10, height // 15, sound)
+	while True:
+		screen.blit(background, (0, 0))
+		config_rect = screen_title.get_rect(center=(width // 2, height // 6))
+		mouse = pygame.mouse.get_pos()
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()
+				sys.exit()
+			elif event.type == pygame.MOUSEBUTTONDOWN:
+				click_pos = pygame.mouse.get_pos()
+				if button.rect.collidepoint(click_pos):
+					menu(screen, width, height, color1, color2, color3)
+		screen.blit(screen_title, config_rect)
+		button.button_loop(screen, mouse, config_button_font, "< BACK", color2, color3, sound)
 		pygame.display.update()
 
 

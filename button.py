@@ -11,7 +11,6 @@ class Button:
 		self.sound = sound
 		self.render = font.render(text, True, color1)
 		self.rect = self.render.get_rect(center=(width, height))
-		# self.mouse_collider(mouse_pos, font, text, color1, color2, sound)
 
 	def mouse_collider(self, mouse_pos, font, text, color1, color2, sound):
 		if self.rect.collidepoint(mouse_pos):
