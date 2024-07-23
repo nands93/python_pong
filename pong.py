@@ -7,10 +7,14 @@ import sys
 
 def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2, font):
 	screen.fill(color1)  # screen color
-	pygame.draw.rect(screen, color2, p1.rect)  # player1
-	pygame.draw.rect(screen, color2, p2.rect)  # player2
+	# pygame.draw.rect(screen, color2, hit1.rect)  # player1
+	# pygame.draw.rect(screen, color2, hit2.rect)  # player2
+	# screen.blit(hit1.image, hit1.rect)  # player1
+	# screen.blit(hit2.image, hit2.rect)  # player2
+	screen.blit(p1.image, p1.rect)  # player1
+	screen.blit(p2.image, p2.rect)  # player2
 	pygame.draw.aaline(screen, color2, (width // 2, 0), (width // 2, height))  # midfield
-	pygame.draw.ellipse(screen, color2, ball)  # ball
+	screen.blit(ball.image, ball.rect)
 	# score
 	score_player1 = font.render(f"{p1.score}", True, color2)
 	score_player2 = font.render(f"{p2.score} ", True, color2)
@@ -23,16 +27,21 @@ def key_movements(p1, p2, ball, screen_width, screen_height, mode):
 	# player1
 	if keys[pygame.K_w]:
 		p1.move_up()
+		# hit1.move_up()
 	if keys[pygame.K_s]:
 		p1.move_down()
+		# hit1.move_down()
 	# player2
 	if mode == 1:
 		if keys[pygame.K_UP]:
 			p2.move_up()
+			# hit2.move_up()
 		if keys[pygame.K_DOWN]:
 			p2.move_down()
+			# hit2.move_down()
 	else:
 		p2.movement(ball, screen_width, screen_height)
+		# hit2.movement(ball, screen_width, screen_height)
 
 
 def menu(screen, width, height, color1, color2, color3):
@@ -101,16 +110,24 @@ def configuration_menu(screen, background, color1, color2, color3, width, height
 def main_game(screen, screen_width, screen_height, black, white, mode):
 	# players
 	speed = 10
-	x_p1 = 50
-	x_p2 = screen_width - 60
+	x_p1 = 40
+	x_p2 = screen_width - 80
 	y_player = (screen_height - 100) // 2
-	w_player = 10
+	w_player = 50
 	h_player = 70
-	player1 = Player(x_p1, y_player, speed, w_player, h_player)
+	hit_w = 10
+	hit_h = 70
+	# h_img = "assets/hitbox.png"
+	p1_img = "assets/apollo.png"
+	p2_img = "assets/alex.png"
+	player1 = Player(p1_img, x_p1, y_player, speed, w_player, h_player)
+	# hit1 = Player(h_img, x_p1, y_player, speed, hit_w, hit_h)
 	if mode == 0:
-		player2 = AutoPlayer(x_p2, y_player, speed, w_player, h_player)
+		player2 = AutoPlayer(p2_img, x_p2, y_player, speed, w_player, h_player)
+		# hit2 = AutoPlayer(h_img, x_p2, y_player, speed, hit_w, hit_h)
 	else:
-		player2 = Player(x_p2, y_player, speed, w_player, h_player)
+		player2 = Player(p2_img, x_p2, y_player, speed, w_player, h_player)
+		# hit2 = Player(h_img, x_p2, y_player, speed, hit_w, hit_h)
 
 	# ball
 	b_radius = 15

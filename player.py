@@ -3,8 +3,7 @@ from ball import Ball
 
 
 class Player:
-	def __init__(self, x_pos, y_pos, speed, width, height):
-		self.rect = pygame.Rect(x_pos, y_pos, width, height)
+	def __init__(self, image, x_pos, y_pos, speed, width, height):
 		self.speed = speed
 		self.x_pos = x_pos
 		self.y_pos = y_pos
@@ -12,6 +11,9 @@ class Player:
 		self.width = width
 		self.height = height
 		self.score = 0
+		self.rect = pygame.Rect(x_pos, y_pos, width, height)
+		self.image = pygame.image.load(image)
+		self.image = pygame.transform.scale(self.image, (width, height))
 
 	def move_up(self):
 		if self.rect.top > 0:
@@ -26,8 +28,8 @@ class Player:
 
 
 class AutoPlayer(Player):
-	def __init__(self, x_pos, y_pos, speed, width, height):
-		super().__init__(x_pos, y_pos, speed, width, height)
+	def __init__(self, image, x_pos, y_pos, speed, width, height):
+		super().__init__(image, x_pos, y_pos, speed, width, height)
 		self.target = y_pos
 		self.delay = 0
 
@@ -58,3 +60,4 @@ class AutoPlayer(Player):
 			self.rect.y += self.speed
 		elif self.rect.centery > self.target + player_center and self.rect.top > 0:
 			self.rect.y -= self.speed
+

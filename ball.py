@@ -3,7 +3,6 @@ import random
 
 class Ball:
 	def __init__(self, radius, x, y, speed_x, speed_y, width, height):
-		self.rect = pygame.Rect(width // 2 - radius // 2, height // 2 - radius // 2, radius, radius)
 		self.radius = radius
 		self.speed_x = speed_x
 		self.speed_y = speed_y
@@ -15,6 +14,9 @@ class Ball:
 		self.height = height
 		self.x = x
 		self.y = y
+		self.rect = pygame.Rect(width // 2 - radius // 2, height // 2 - radius // 2, radius, radius)
+		self.image = pygame.image.load("assets/moon.png")
+		self.image = pygame.transform.scale(self.image, (radius, radius))
 
 	def movement(self):
 		self.rect.x += self.speed_x
