@@ -14,6 +14,7 @@ class Player:
 		self.rect = pygame.Rect(x_pos, y_pos, width, height)
 		self.image = pygame.image.load(image)
 		self.image = pygame.transform.scale(self.image, (width, height))
+		self.hitbox_width = 5
 
 	def move_up(self):
 		if self.rect.top > 0:
