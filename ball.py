@@ -22,7 +22,7 @@ class Ball:
 		self.rect.x += self.speed_x
 		self.rect.y += self.speed_y
 
-	def collision(self, player1, player2, sound1, sound2, sound3):
+	def collision(self, player1, player2, sound1, sound2, sound3, game_score):
 		direction = [0, 1]
 		angle = [0, 1, 2]
 		dir = random.choice(direction)
@@ -33,10 +33,18 @@ class Ball:
 		if self.rect.left <= 0 + self.radius:
 			sound3.play()
 			player2.score += 1
+			if player2.score == game_score:
+				player2.rounds += 1
+				player1.score = 0
+				player2.score = 0
 			self.reset_position()
 		if self.rect.right >= self.width - self.radius:
 			sound3.play()
 			player1.score += 1
+			if player1.score == game_score:
+				player1.rounds += 1
+				player1.score = 0
+				player2.score = 0
 			self.reset_position()
 		if self.rect.colliderect(player1.rect):
 			self.rect.left = player1.rect.right

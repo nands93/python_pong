@@ -11,6 +11,7 @@ class Player:
 		self.width = width
 		self.height = height
 		self.score = 0
+		self.rounds = 0
 		self.rect = pygame.Rect(x_pos, y_pos, width, height)
 		self.image = pygame.image.load(image)
 		self.image = pygame.transform.scale(self.image, (width, height))
