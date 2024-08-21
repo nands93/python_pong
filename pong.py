@@ -54,7 +54,7 @@ def menu(screen, width, height, color1, color2, color3):
 	pygame.display.set_caption("Menu")
 	title = render_text(FONT, "PONG", 100, GOLDEN)
 	bg = pygame.image.load('assets/background.png')
-	sound = pygame.mixer.Sound("assets/button.ogg")
+	sound = pygame.mixer.Sound("../django_project/pong/static/pong/sound/button.ogg")
 
 	one_player_button = Button(FONT, 25, "1 PLAYER MODE", color2, color3, width // 2, height // 2, sound)
 	two_players_button = Button(FONT, 25, "2 PLAYERS MODE", color2, color3, width // 2, height // 1.7, sound)
@@ -144,12 +144,8 @@ def configuration_menu(screen, background, color1, color2, color3, width, height
 		screen.blit(leg_points, leg_rect2)
 		screen.blit(rounds, round_rect)
 		screen.blit(score, points_rect)
-		back_button.button_loop(screen, mouse)
-		add_button1.button_loop(screen, mouse)
-		sub_button1.button_loop(screen, mouse)
-		add_button2.button_loop(screen, mouse)
-		sub_button2.button_loop(screen, mouse)
-		save_button.button_loop(screen, mouse)
+		for button in [back_button, add_button1, sub_button1, add_button2, sub_button2, save_button]:
+			button.button_loop(screen, mouse)
 		pygame.display.update()
 
 
@@ -164,8 +160,8 @@ def main_game(screen, screen_width, screen_height, black, white, mode):
 	h_player = 70
 	hit_w = 10
 	hit_h = 70
-	p1_img = "assets/apollo.png"
-	p2_img = "assets/alex.png"
+	p1_img = "assets/*.png"
+	p2_img = "assets/*.png"
 	player1 = Player(p1_img, x_p1, y_player, speed, w_player, h_player)
 	if mode == 0:
 		player2 = AutoPlayer(p2_img, x_p2, y_player, speed, w_player, h_player)
