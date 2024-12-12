@@ -20,12 +20,12 @@ def render_text(font, string, size, color):
 
 
 def draw_on_screen(screen, color1, color2, width, height, ball, p1, p2, font1, font2):
-	screen.fill(color1)  # screen color
-	screen.blit(p1.image, p1.rect)  # player1
-	screen.blit(p2.image, p2.rect)  # player2
+	screen.fill(color1)
+	screen.blit(p1.image, p1.rect)
+	screen.blit(p2.image, p2.rect)
 	pygame.draw.aaline(screen, color2, (width // 2, 0), (width // 2, height))  # midfield
 	screen.blit(ball.image, ball.rect)
-	# score
+
 	score_player1 = font1.render(f"{p1.score}", True, color2)
 	score_player2 = font1.render(f"{p2.score} ", True, color2)
 	rounds_player1 = font2.render(f"{p1.rounds}", True, color2)
@@ -57,7 +57,7 @@ def menu(screen, width, height, color1, color2, color3):
 	pygame.display.set_caption("Menu")
 	title = render_text(FONT, "PONG", 100, GOLDEN)
 	bg = pygame.image.load('assets/background.png')
-	sound = pygame.mixer.Sound("../django_project/pong/static/pong/sound/button.ogg")
+	sound = pygame.mixer.Sound("assets/button.ogg")
 
 	one_player_button = Button(FONT, 25, "1 PLAYER MODE", color2, color3, width // 2, height // 2, sound)
 	two_players_button = Button(FONT, 25, "2 PLAYERS MODE", color2, color3, width // 2, height // 1.7, sound)
